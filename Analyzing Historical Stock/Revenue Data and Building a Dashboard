@@ -1,0 +1,96 @@
+
+import pandas as pd
+
+import yfinance as yf
+
+# Extract Tesla stock data
+tesla_stock_data = yf.download('TSLA', start='2021-01-01', end='2024-06-05')
+
+# Print the first few rows of the data
+print(tesla_stock_data.head())
+
+
+
+
+
+import requests
+from bs4 import BeautifulSoup
+
+# URL of the webpage containing Tesla revenue data
+url = 'https://www.macrotrends.net/stocks/charts/TSLA/tesla/revenue'
+
+# Send a GET request to the URL
+response = requests.get(url)
+
+# Parse the HTML content
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Locate the revenue table and extract data
+# Code to extract revenue data from the table
+
+
+
+
+
+
+# Similar to Question 1, just change the ticker symbol to 'GME'
+gamestop_stock_data = yf.download('GME', start='2021-01-01', end='2024-06-05')
+print(gamestop_stock_data.head())
+
+
+
+
+
+
+import requests
+from bs4 import BeautifulSoup
+
+# URL of the webpage containing GameStop revenue data
+url = 'https://www.macrotrends.net/stocks/charts/GME/gamestop/revenue'
+
+# Send a GET request to the URL
+response = requests.get(url)
+
+# Parse the HTML content
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Locate the revenue table and extract data
+# Code to extract revenue data from the table
+
+
+
+
+
+
+import matplotlib.pyplot as plt
+
+# Code to plot Tesla stock and revenue data
+# Plot Tesla stock data
+plt.figure(figsize=(10, 6))
+plt.plot(tesla_stock_data['Close'], label='Tesla Stock Price', color='blue')
+plt.title('Tesla Stock Price')
+plt.xlabel('Date')
+plt.ylabel('Price ($)')
+plt.legend()
+plt.show()
+
+# Plot Tesla revenue data
+# Code to plot Tesla revenue data
+
+
+
+
+
+
+
+# Code to plot GameStop stock and revenue data
+# Plot GameStop stock data
+plt.figure(figsize=(10, 6))
+plt.plot(gamestop_stock_data['Close'], label='GameStop Stock Price', color='red')
+plt.title('GameStop Stock Price')
+plt.xlabel('Date')
+plt.ylabel('Price ($)')
+plt.legend()
+plt.show()
+
+
