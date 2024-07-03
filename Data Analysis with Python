@@ -1,0 +1,70 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+df_ice = pd.read_excel('icecream.xlsx')
+df_ice.dropna(inplace = True)
+
+print(df_ice)
+
+#get the price column as np array
+prices = df_ice.price.values
+
+#convert the prices from dollars per pint to dollars per liter (2 pints / litre)
+prices = prices * 2
+
+#update the column in the data frame with the new prices
+df_ice.price = prices
+
+#convert the temperatures to celsius (C = 5/9 x (F-32))
+df_ice.temp = 5/9 * (df_ice.temp - 32)
+
+#convert the consumption from pints to litres
+df_ice['cons'] = df_ice['cons'] / 2
+print(df_ice)
+
+#find the DataFrame that stores the consumptions for all households over 900
+over_900 = df_ice[df_ice.income > 900]
+
+#find the maximum price of icecream in households with income over 900
+max_price = np.max(over_900.price)
+print('Max Price per liter in households with income over 900:',max_price)
+
+#add a new column, cons_year which stores the projected yearly consumption 
+#for each observation
+df_ice['cons_year'] = df_ice.cons * 52
+
+#how many households consume between 10 and 15 litres per year
+ten_twelve = df_ice[(df_ice['cons_year'] > 10) & (df_ice['cons_year'] < 15)]
+print('Households consuming between 10 and 12(exclusive) litres per year: ', len(ten_twelve))
+
+
+plt.figure(1)
+plt.clf()
+#sort by temperature
+plt.subplot(1,2,1)
+df_ice.sort_values('temp', inplace=True)
+plt.plot(df_ice.cons, df_ice.temp, 'm')
+plt.title('Consumption as temperature increases')
+plt.ylabel('Temp(C)')
+#sort by income
+plt.subplot(1,2,2)
+df_ice.sort_values('income', inplace=True)
+plt.plot(df_ice.cons, df_ice.income,'g')
+plt.title('Consumption as income increases')
+plt.ylabel('Income($)')
+
+plt.figure(2)
+plt.clf()
+plt.hist(df_ice.income, 10)
+plt.title('Frequency of household incomes in survey')
+
+plt.figure(3)
+plt.clf()
+bar_width = 0.5
+over_20 = df_ice[df_ice.temp >= 20]
+
+plt.bar('All Temperatures',np.mean(df_ice.cons), bar_width)
+plt.bar('Temp over 20',np.mean(over_20.cons), bar_width)
+plt.title('Consumption of Icecream vs Temperature')
+plt.ylabel('Consumption(L)')
