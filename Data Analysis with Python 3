@@ -1,0 +1,53 @@
+import pandas as pd
+import numpy as np
+
+#import the data from the excel file, doctor_data
+d_data = pd.read_excel('Question02_doctor_data.xlsx')
+
+#Fill all missing(NaN) values with -1, the original DataFrame should be updated
+d_data = d_data.fillna(-1 )
+
+#print the DataFrame with the doctor information
+print('\nb - Doctor DataFrame:')
+print(d_data)
+
+#Add a new column, active, that stores True if the end year is -1 
+#(doctor is still working) False if not
+
+d_data['active'] = d_data.end_year == -1
+print('\nc - Doctor DataFrame - active Column:')
+print(d_data)
+
+#sort the DataFrame by the id_num field 
+d_data = d_data.sort_values('id_num')
+
+#d_data.index = d_data['id_num']
+#set the id_num field as the index (inplace)
+d_data.set_index('id_num', inplace=True)
+
+
+
+#find and display the name and number of patients of doctors with id numbers between
+#3000 and 4000 (inclusive) Hint:use loc
+doc_by_id = d_data.loc[30000:40000, ['doc_name', 'num_patients']]
+print('\nf - IDs between 30000 and 40000:')
+print(doc_by_id)
+
+#active doctors not at Medicana
+active_med = d_data[(d_data.active == True) & (d_data.hospital != 'Medicana')]
+print('\ng - Active Doctors not at Medicana:')
+print(active_med)
+
+#which Cardiologist has maximum patients
+#a)Find the DataFrame that stores all cardiologists
+cardi = d_data[d_data.specialty == 'Cardiology']
+#b) Using the max function, find the maximum number of patients for all cardiologists
+#using the DataFrame from step a
+max_pt = np.max(cardi.num_patients)
+
+#c)Select the record from the DataFrame whose number of patients is equal to the max from
+#step b
+c_max = cardi[cardi.num_patients == max_pt]
+
+#Print the name of the cardiology doctor with the maximum patients.
+print('\nh - Cardiologist with max patients',c_max['doc_name'])
