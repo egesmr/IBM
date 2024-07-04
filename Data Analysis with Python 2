@@ -1,0 +1,67 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# c_rates=np.arange(0.1,0.6,0.1)
+# sales=np.array([1500, 650, 6500, 5000, 1000])
+# print("Commission rate per year: ", c_rates)
+# print("Sales per year: ", sales)
+# commission=c_rates*sales
+# print("Commission amount per year: ", commission)
+# lowest_commission=np.min(commission)
+# print("Lowest Commission amount: ", lowest_commission)
+# total_commission=np.sum(commission)
+# print("Total Commission is: ",total_commission)
+# sales_over5000=sales[sales>5000]
+# print("Sales over 5000: ", sales_over5000)
+# indexesof_commissios_over1000= np.where(commission<1000)
+# print("Indexes of commisions over 1000: ", indexesof_commissios_over1000)
+
+
+# df_doctor=pd.read_excel("doctor_data.xlsx")
+# # print(df_doctor)
+# df_doctor=df_doctor.fillna(-1)
+# # print(df_doctor)
+# df_doctor["active"]=df_doctor.end_year==-1
+# # print(df_doctor)
+# df_doctor=df_doctor.sort_values("id_num")
+# # print(df_doctor)
+# df_doctor.set_index("id_num", inplace=True)
+# # print(df_doctor)
+# doc_by_id= df_doctor.loc[30000:40000, ["doc_name", "num_patients"]]
+# # print(doc_by_id)
+# active_med=df_doctor[(df_doctor.active==True) & (df_doctor.hospital!= "Medicana")]
+# # print(active_med)
+# cardi=df_doctor[df_doctor.specialty=="Cardiology"]
+# # print(cardi)
+# max_patient=np.max(cardi.num_patients)
+# # print(cardi)
+# c_max=cardi[cardi.num_patients==max_patient]
+# # print(c_max)
+# print(c_max.doc_name)
+
+
+top50= pd.read_excel("top50.xlsx")
+df_edm=top50[top50.Genre=="edm"]
+
+
+plt.figure(1)
+plt.clf()
+plt.subplot(2,1,1)
+plt.pie(df_edm.Popularity, labels=df_edm.TrackName)
+plt.title("Popularity of Electronic Dance Music (edm)")
+
+
+plt.subplot(2,1,2)
+plt.hist(top50.BeatsPerMinute,4)
+plt.title("Frequences of Beats for Minute (all songs) in 4 Bins")
+
+
+plt.figure(2)
+plt.clf()
+df_ed=top50[(top50.ArtistName=="Ed Sheeran") | (top50.ArtistName=="Billie Eilish")]
+df_ed=df_ed.sort_values("BeatsPerMinute")
+plt.plot(df_ed.BeatsPerMinute, df_ed.Popularity, "ko:")
+plt.plot(df_ed.BeatsPerMinute, df_ed.Danceability, "m*--")
+plt.legend("Popularity","Danceability")
+plt.xlabel("Beats Per Minute")
